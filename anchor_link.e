@@ -6,7 +6,6 @@ note
 
 class
 	ANCHOR_LINK
-
 inherit
 	COMPONENT
 
@@ -14,29 +13,35 @@ create
 	make
 
 feature
-    -- Add a new internal link
+    -- Add a new anchor link
     target_name:STRING
+    
 
-    make(a_target:COMPONENT)
+
+    make(anchor_name: STRING;a_target:COMPONENT)
 
 	    require
-	    	exist:
+	    	name_given:not anchor_name.is_empty
 
+	    	target_exist:not a_target.name.is_empty
 
         do
+            name:=anchor_name
 
             target_name:= a_target.name
+
+
             target:=a_target
+        ensure
+        	name_assigned:not name.is_empty
+        	name_assigned_correctly: name=anchor_name
+        	target_assigned:not target_name.is_empty
+        	target_assigned_correctly: target_name= a_target.name
+
 
         end
 
-feature
-	--Return the size of the linked element
-	size:INTEGER
 
-	   do
-	   	   Result:=target.size
-	   end
 
 
 feature
@@ -52,10 +57,6 @@ feature
 
 	target: COMPONENT
 
+
+
 end
-
-
-
-
-
-

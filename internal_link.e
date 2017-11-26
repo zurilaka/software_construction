@@ -6,7 +6,6 @@ note
 
 class
 	INTERNAL_LINK
-
 inherit
 	COMPONENT
 
@@ -17,25 +16,31 @@ feature
     -- Add a new internal link
     target_name:STRING
 
-    make(linkname:STRING;a_target:COMPONENT)
+
+    make(internal_link_name:STRING;a_target:COMPONENT)
 
 	    require
-	    	linkname.count>0
+	    	name_given:not internal_link_name.is_empty
+
+	    	target_exist:not a_target.name.is_empty
+
 
         do
+        	name:=internal_link_name
 
             target_name:= a_target.name
+
             target:=a_target
+
+        ensure
+        	name_assigned:not name.is_empty
+        	name_assigned_correctly: name=internal_link_name
+        	target_assigned:not target_name.is_empty
+        	target_assigned_correctly: target_name= a_target.name
+
 
         end
 
-feature
-	--Return the size of the linked element
-	size:INTEGER
-
-	   do
-	   	   Result:=target.size
-	   end
 
 
 feature
@@ -50,8 +55,4 @@ feature
 	--The target element we link to
 
 	target: COMPONENT
-
 end
-
-
-
